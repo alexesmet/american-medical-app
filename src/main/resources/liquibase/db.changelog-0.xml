@@ -1,0 +1,72 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="1" author="alexey">
+        <createTable tableName="states">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="code" type="mediumint">
+                <constraints nullable="true" unique="true"/>
+            </column>
+        </createTable>
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="states" />
+    </changeSet>
+
+    <changeSet id="2" author="alexey">
+        <createTable tableName="clients">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(15)"/>
+            <column name="state_id" type="bigint"/>
+        </createTable>
+
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="clients" />
+
+        <addForeignKeyConstraint baseColumnNames="state_id"
+                                 baseTableName="clients"
+                                 constraintName="client_state_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="states"/>
+    </changeSet>
+
+    <changeSet id="3" author="alexey">
+        <createTable tableName="products">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state_id" type="bigint"/>
+
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="state_id"
+                                 baseTableName="products"
+                                 constraintName="products_state_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="states"/>
+
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="products" />
+    </changeSet>
+
+</databaseChangeLog>
+
+
