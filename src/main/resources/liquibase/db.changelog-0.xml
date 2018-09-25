@@ -79,7 +79,7 @@
 
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
-                          tableName="clients" />
+                          tableName="transactions" />
 
         <addForeignKeyConstraint baseColumnNames="client_id"
                                  baseTableName="transactions"
