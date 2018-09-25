@@ -3,6 +3,7 @@ package com.itsm.core;
 import com.itsm.factory.ClientFactory;
 import com.itsm.factory.ProductFactory;
 import com.itsm.factory.StateFactory;
+import com.itsm.factory.TransactionFactory;
 import com.itsm.storage.ClientStorage;
 import com.itsm.storage.ProductStorage;
 import com.itsm.storage.StateStorage;
@@ -64,6 +65,16 @@ public class SpringConfig {
     @Bean
     public ProductFactory productFactory(StateStorage stateStorage) {
         return new ProductFactory(stateStorage);
+    }
+
+    @Bean
+    public TransactionFactory transactionFactory(ClientStorage clientStorage, ProductStorage productStorage){
+        return new TransactionFactory(clientStorage,productStorage);
+    }
+
+    @Bean
+    public TransactionManager transactionManager(TransactionFactory transactionFactory){
+        return new TransactionManager(URL,transactionFactory);
     }
 
     @Bean

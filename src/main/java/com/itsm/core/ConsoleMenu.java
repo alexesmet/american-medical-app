@@ -10,6 +10,8 @@ import com.itsm.storage.StateStorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 @Component("ConsoleMenu")
@@ -17,6 +19,7 @@ public class ConsoleMenu implements Runnable{
     private final CrudMenu clientCRUD;
     private final CrudMenu productCRUD;
     private final CrudMenu stateCRUD;
+    private final TransactionManager transactionManager;
 
     private Scanner sc;
 
@@ -26,8 +29,10 @@ public class ConsoleMenu implements Runnable{
                        StateStorage stateStorage,
                        ClientFactory clientFactory,
                        ProductFactory productFactory,
-                       StateFactory stateFactory) {
+                       StateFactory stateFactory,
+                       TransactionManager transactionManager) {
 
+        this.transactionManager = transactionManager;
         clientCRUD = new CrudMenu(clientStorage,clientFactory);
         productCRUD = new CrudMenu(productStorage,productFactory);
         stateCRUD = new CrudMenu(stateStorage,stateFactory);
@@ -40,6 +45,7 @@ public class ConsoleMenu implements Runnable{
                     " 1. Client  CRUD \n" +
                     " 2. Product CRUD \n" +
                     " 3. State   CRUD \n" +
+                    " 4. Sell operation \n" +
                     " 0. exit \n" +
                     "> ");
             switch (sc.nextInt()) {
@@ -52,6 +58,13 @@ public class ConsoleMenu implements Runnable{
                 case 3:
                     stateCRUD.run();
                     break;
+                case 4:
+                    try {
+                        transactionManager.transact();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case 0:
                     System.out.println("Bye.");
                     return;
@@ -61,5 +74,6 @@ public class ConsoleMenu implements Runnable{
             }
         }
     }
+
 
 }

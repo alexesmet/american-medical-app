@@ -67,6 +67,34 @@
                           tableName="products" />
     </changeSet>
 
+    <changeSet id="4" author="alexey">
+        <createTable tableName="transactions">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint"/>
+            <column name="product_id" type="bigint"/>
+            <column name="time" type="timestamp" valueDate="YYYY-MM-DDThh:mm:ss"/>
+        </createTable>
+
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="clients" />
+
+        <addForeignKeyConstraint baseColumnNames="client_id"
+                                 baseTableName="transactions"
+                                 constraintName="transaction_client_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="clients"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="transactions"
+                                 constraintName="transaction_product_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="products"/>
+
+    </changeSet>
+
 </databaseChangeLog>
 
 
