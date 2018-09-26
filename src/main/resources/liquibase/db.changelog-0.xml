@@ -18,7 +18,7 @@
         </createTable>
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
-                          tableName="states" />
+                          tableName="states"/>
     </changeSet>
 
     <changeSet id="2" author="alexey">
@@ -35,7 +35,7 @@
 
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
-                          tableName="clients" />
+                          tableName="clients"/>
 
         <addForeignKeyConstraint baseColumnNames="state_id"
                                  baseTableName="clients"
@@ -64,7 +64,7 @@
 
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
-                          tableName="products" />
+                          tableName="products"/>
     </changeSet>
 
     <changeSet id="4" author="alexey">
@@ -79,7 +79,7 @@
 
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
-                          tableName="transactions" />
+                          tableName="transactions"/>
 
         <addForeignKeyConstraint baseColumnNames="client_id"
                                  baseTableName="transactions"
@@ -94,6 +94,25 @@
                                  referencedTableName="products"/>
 
     </changeSet>
+
+    <changeSet id="5" author="alexey">
+        <createTable tableName="audit_operations">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="time" type="timestamp" valueDate="YYYY-MM-DDThh:mm:ss"/>
+            <column name="success" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="varchar(100)"/>
+        </createTable>
+
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="audit_operations"/>
+    </changeSet>
+
+
 
 </databaseChangeLog>
 

@@ -1,6 +1,8 @@
 package com.itsm.storage;
 
+import com.itsm.auditor.Auditable;
 import com.itsm.entity.Client;
+import com.itsm.entity.State;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -10,9 +12,9 @@ import java.util.List;
 public class ClientStorage implements Storage<Client> {
 
     private final String url;
-    private final StateStorage stateStorage;
+    private final Storage<State> stateStorage;
 
-    public ClientStorage(String url, StateStorage stateStorage) {
+    public ClientStorage(String url, Storage<State> stateStorage) {
         this.url = url;
         this.stateStorage = stateStorage;
     }
@@ -49,6 +51,7 @@ public class ClientStorage implements Storage<Client> {
     }
 
     @Override
+    @Auditable
     public void add(Client o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("INSERT INTO clients (name, phone,state_id) VALUES (?, ?, ?)");
@@ -61,6 +64,7 @@ public class ClientStorage implements Storage<Client> {
     }
 
     @Override
+    @Auditable
     public void update(Client o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("UPDATE clients SET name = ?, phone = ?, state_id = ? WHERE id = ?");
@@ -75,6 +79,7 @@ public class ClientStorage implements Storage<Client> {
     }
 
     @Override
+    @Auditable
     public void delete(long id) throws SQLException {
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("DELETE FROM clients WHERE `id` = ?");

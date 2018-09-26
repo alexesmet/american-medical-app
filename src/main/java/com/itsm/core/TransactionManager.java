@@ -1,24 +1,25 @@
 package com.itsm.core;
 
+import com.itsm.auditor.Auditable;
 import com.itsm.entity.Transaction;
-import com.itsm.factory.TransactionFactory;
+import com.itsm.factory.Factory;
+import com.itsm.util.Manager;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-public class TransactionManager {
+import java.sql.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+
+public class TransactionManager implements Manager<Transaction> {
     private final String url;
-    private final TransactionFactory transactionFactory;
 
-    public TransactionManager(String url, TransactionFactory transactionFactory) {
+    public TransactionManager(String url) {
         this.url = url;
-        this.transactionFactory = transactionFactory;
     }
 
-    void transact() throws SQLException {
-        Transaction transaction = transactionFactory.create(0);
+    @Auditable
+    public void execute(Transaction transaction) throws SQLException {
         if(transaction != null) {
             if (transaction.getPatient().getState().getId() == transaction.getProduct().getState().getId()) {
                 Connection connection = DriverManager.getConnection(url);
@@ -29,6 +30,7 @@ public class TransactionManager {
                 ps.execute();
                 ps.close();
                 connection.close();
+                System.out.println("Success!");
             } else {
                 throw new SQLException("Client's and Product's ID should be equal!");
             }

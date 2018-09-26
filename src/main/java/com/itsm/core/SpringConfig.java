@@ -1,12 +1,14 @@
 package com.itsm.core;
 
-import com.itsm.factory.ClientFactory;
-import com.itsm.factory.ProductFactory;
-import com.itsm.factory.StateFactory;
-import com.itsm.factory.TransactionFactory;
+import com.itsm.entity.Client;
+import com.itsm.entity.Product;
+import com.itsm.entity.State;
+import com.itsm.entity.Transaction;
+import com.itsm.factory.*;
 import com.itsm.storage.ClientStorage;
 import com.itsm.storage.ProductStorage;
 import com.itsm.storage.StateStorage;
+import com.itsm.storage.Storage;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +45,12 @@ public class SpringConfig {
     }
 
     @Bean
-    public ClientStorage clientStorage(StateStorage stateStorage) {
+    public ClientStorage clientStorage(Storage<State> stateStorage) {
         return new ClientStorage(URL, stateStorage);
     }
 
     @Bean
-    public ProductStorage productStorage(StateStorage stateStorage) {
+    public ProductStorage productStorage(Storage<State> stateStorage) {
         return new ProductStorage(URL, stateStorage);
     }
 
@@ -58,23 +60,23 @@ public class SpringConfig {
     }
 
     @Bean
-    public ClientFactory clientFactory(StateStorage stateStorage) {
+    public ClientFactory clientFactory(Storage<State> stateStorage) {
         return new ClientFactory(stateStorage);
     }
 
     @Bean
-    public ProductFactory productFactory(StateStorage stateStorage) {
+    public ProductFactory productFactory(Storage<State> stateStorage) {
         return new ProductFactory(stateStorage);
     }
 
     @Bean
-    public TransactionFactory transactionFactory(ClientStorage clientStorage, ProductStorage productStorage){
+    public TransactionFactory transactionFactory(Storage<Client> clientStorage, Storage<Product> productStorage){
         return new TransactionFactory(clientStorage,productStorage);
     }
 
     @Bean
-    public TransactionManager transactionManager(TransactionFactory transactionFactory){
-        return new TransactionManager(URL,transactionFactory);
+    public TransactionManager transactionManager(){
+        return new TransactionManager(URL);
     }
 
     @Bean

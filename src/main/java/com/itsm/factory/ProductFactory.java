@@ -4,14 +4,15 @@ import com.itsm.entity.Client;
 import com.itsm.entity.Product;
 import com.itsm.entity.State;
 import com.itsm.storage.StateStorage;
+import com.itsm.storage.Storage;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProductFactory implements Factory<Product> {
-    private final StateStorage stateStorage;
+    private final Storage<State> stateStorage;
 
-    public ProductFactory(StateStorage stateStorage) {
+    public ProductFactory(Storage<State> stateStorage) {
         this.stateStorage = stateStorage;
     }
 

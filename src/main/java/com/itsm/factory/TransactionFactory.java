@@ -1,18 +1,21 @@
 package com.itsm.factory;
 
+import com.itsm.entity.Client;
+import com.itsm.entity.Product;
 import com.itsm.entity.Transaction;
 import com.itsm.storage.ClientStorage;
 import com.itsm.storage.ProductStorage;
+import com.itsm.storage.Storage;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class TransactionFactory implements Factory<Transaction> {
 
-    private final ClientStorage clientStorage;
-    private final ProductStorage productStorage;
+    private final Storage<Client> clientStorage;
+    private final Storage<Product> productStorage;
 
-    public TransactionFactory(ClientStorage clientStorage, ProductStorage productStorage) {
+    public TransactionFactory(Storage<Client> clientStorage, Storage<Product> productStorage) {
         this.clientStorage = clientStorage;
         this.productStorage = productStorage;
     }
@@ -31,6 +34,7 @@ public class TransactionFactory implements Factory<Transaction> {
             if (!productStorage.contains(product_id)) {
                 System.out.println("No such product id");
             }
+            System.out.println("Transaction created...");
             return new Transaction(clientStorage.get(client_id),productStorage.get(product_id));
         } catch (SQLException e) {
             System.out.println("Unexpected SQLException!");

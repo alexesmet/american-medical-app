@@ -1,6 +1,6 @@
 package com.itsm.storage;
 
-import com.itsm.entity.Product;
+import com.itsm.auditor.Auditable;
 import com.itsm.entity.State;
 
 import java.sql.*;
@@ -45,6 +45,7 @@ public class StateStorage implements Storage<State> {
     }
 
     @Override
+    @Auditable
     public void add(State o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("INSERT INTO states (`name`, `code`) VALUES (?, ?)");
@@ -56,6 +57,7 @@ public class StateStorage implements Storage<State> {
     }
 
     @Override
+    @Auditable
     public void update(State o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("UPDATE states SET name = ?, code = ? WHERE id = ?");
@@ -69,6 +71,7 @@ public class StateStorage implements Storage<State> {
     }
 
     @Override
+    @Auditable
     public void delete(long id) throws SQLException {
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("DELETE FROM states WHERE `id` = ?");

@@ -1,7 +1,9 @@
 package com.itsm.storage;
 
+import com.itsm.auditor.Auditable;
 import com.itsm.entity.Client;
 import com.itsm.entity.Product;
+import com.itsm.entity.State;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,9 +11,9 @@ import java.util.List;
 
 public class ProductStorage implements Storage<Product> {
     private final String url;
-    private final StateStorage stateStorage;
+    private final Storage<State> stateStorage;
 
-    public ProductStorage(String url, StateStorage stateStorage) {
+    public ProductStorage(String url, Storage<State> stateStorage) {
         this.url = url;
         this.stateStorage = stateStorage;
     }
@@ -47,6 +49,7 @@ public class ProductStorage implements Storage<Product> {
     }
 
     @Override
+    @Auditable
     public void add(Product o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("INSERT INTO products (name,state_id) VALUES (?, ?)");
@@ -58,6 +61,7 @@ public class ProductStorage implements Storage<Product> {
     }
 
     @Override
+    @Auditable
     public void update(Product o) throws SQLException{
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("UPDATE products SET name = ?, state_id = ? WHERE id = ?");
@@ -71,6 +75,7 @@ public class ProductStorage implements Storage<Product> {
     }
 
     @Override
+    @Auditable
     public void delete(long id) throws SQLException {
         Connection connection = DriverManager.getConnection(url);
         PreparedStatement ps = connection.prepareStatement("DELETE FROM products WHERE `id` = ?");

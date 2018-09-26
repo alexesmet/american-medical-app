@@ -1,13 +1,14 @@
 package com.itsm.core;
 
 
-import com.itsm.factory.ClientFactory;
-import com.itsm.factory.ProductFactory;
-import com.itsm.factory.StateFactory;
-import com.itsm.storage.ClientStorage;
-import com.itsm.storage.ProductStorage;
-import com.itsm.storage.StateStorage;
+import com.itsm.entity.Client;
+import com.itsm.entity.Product;
+import com.itsm.entity.State;
+import com.itsm.entity.Transaction;
+import com.itsm.factory.Factory;
 
+import com.itsm.storage.Storage;
+import com.itsm.util.Manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,20 +20,23 @@ public class ConsoleMenu implements Runnable{
     private final CrudMenu clientCRUD;
     private final CrudMenu productCRUD;
     private final CrudMenu stateCRUD;
-    private final TransactionManager transactionManager;
+    private final Manager<Transaction> transactionManager;
+    private final Factory<Transaction> transactionFactory;
 
     private Scanner sc;
 
     @Autowired
-    public ConsoleMenu(ClientStorage clientStorage,
-                       ProductStorage productStorage,
-                       StateStorage stateStorage,
-                       ClientFactory clientFactory,
-                       ProductFactory productFactory,
-                       StateFactory stateFactory,
-                       TransactionManager transactionManager) {
+    public ConsoleMenu(Storage<Client> clientStorage,
+                       Storage<Product> productStorage,
+                       Storage<State> stateStorage,
+                       Factory<Client> clientFactory,
+                       Factory<Product> productFactory,
+                       Factory<State> stateFactory,
+                       Factory<Transaction> transactionFactory,
+                       Manager<Transaction> transactionManager) {
 
         this.transactionManager = transactionManager;
+        this.transactionFactory = transactionFactory;
         clientCRUD = new CrudMenu(clientStorage,clientFactory);
         productCRUD = new CrudMenu(productStorage,productFactory);
         stateCRUD = new CrudMenu(stateStorage,stateFactory);
@@ -60,7 +64,8 @@ public class ConsoleMenu implements Runnable{
                     break;
                 case 4:
                     try {
-                        transactionManager.transact();
+                        Transaction t = transactionFactory.create(0);
+                        transactionManager.execute(t);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

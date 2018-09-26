@@ -3,15 +3,16 @@ package com.itsm.factory;
 import com.itsm.entity.Client;
 import com.itsm.entity.State;
 import com.itsm.storage.StateStorage;
+import com.itsm.storage.Storage;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ClientFactory implements Factory<Client> {
 
-    private final StateStorage stateStorage;
+    private final Storage<State> stateStorage;
 
-    public ClientFactory(StateStorage stateStorage) {
+    public ClientFactory(Storage<State> stateStorage) {
         this.stateStorage = stateStorage;
     }
 
