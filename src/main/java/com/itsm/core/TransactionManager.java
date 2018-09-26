@@ -25,7 +25,7 @@ public class TransactionManager {
                 PreparedStatement ps = connection.prepareStatement("INSERT INTO transactions (client_id,product_id,time) VALUES (?, ?, ?)");
                 ps.setLong(1, transaction.getPatient().getId());
                 ps.setLong(2, transaction.getProduct().getId());
-                ps.setDate(3, transaction.getDatetime());
+                ps.setTimestamp(3, new Timestamp(transaction.getDatetime().getTime()));
                 ps.execute();
                 ps.close();
                 connection.close();
