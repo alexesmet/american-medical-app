@@ -1,15 +1,9 @@
-package com.itsm.core;
+package com.itsm.util;
 
 import com.itsm.auditor.Auditable;
 import com.itsm.entity.Transaction;
-import com.itsm.factory.Factory;
-import com.itsm.util.Manager;
-
 
 import java.sql.*;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 
 public class TransactionManager implements Manager<Transaction> {
     private final String url;

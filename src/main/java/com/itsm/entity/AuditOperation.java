@@ -15,6 +15,13 @@ public class AuditOperation {
         this.action = action;
     }
 
+    public AuditOperation(boolean successful, String action) {
+        this.id = 0;
+        this.date = new Date(new java.util.Date().getTime());
+        this.successful = successful;
+        this.action = action;
+    }
+
     public long getId() {
         return id;
     }

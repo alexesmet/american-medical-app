@@ -1,5 +1,7 @@
 package com.itsm.auditor;
 
+import com.itsm.entity.AuditOperation;
+import com.itsm.util.Manager;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -17,7 +19,9 @@ import java.util.Map;
 public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
     private Map<String, BeanMarkedMethods> beans = new HashMap<>();
-    private String url = "jdbc:mysql://localhost:3306/american_medical_app?user=root&password=root&useSSL=false";
+
+    @Autowired
+    private Manager<AuditOperation> auditOperationManager;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -57,7 +61,8 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
                                 throw new Exception(e);
                             } finally {
                                 String action = method.getName() + " in " + original.getClass().getName();
-                                audit(success, action);
+                                AuditOperation auditOperation = new AuditOperation(success, action);
+                                auditOperationManager.execute(auditOperation);
                             }
 
                         } else {
@@ -71,22 +76,6 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
         return bean;
     }
 
-    private void audit(boolean success, String action) {
-        try {
-            Connection connection = DriverManager.getConnection(url);
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO audit_operations (time, success, action) VALUES (?, ?, ?)");
-            ps.setTimestamp(1, new Timestamp(new java.util.Date().getTime()));  //now
-            ps.setBoolean(2, success);
-            ps.setString(3, action);
-            ps.execute();
-            ps.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     private class BeanMarkedMethods {
         private final Object originalBean;

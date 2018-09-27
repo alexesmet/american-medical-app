@@ -3,12 +3,13 @@ package com.itsm.core;
 import com.itsm.entity.Client;
 import com.itsm.entity.Product;
 import com.itsm.entity.State;
-import com.itsm.entity.Transaction;
 import com.itsm.factory.*;
 import com.itsm.storage.ClientStorage;
 import com.itsm.storage.ProductStorage;
 import com.itsm.storage.StateStorage;
 import com.itsm.storage.Storage;
+import com.itsm.util.AuditOperationManager;
+import com.itsm.util.TransactionManager;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,11 @@ public class SpringConfig {
     @Bean
     public TransactionManager transactionManager(){
         return new TransactionManager(URL);
+    }
+
+    @Bean
+    public AuditOperationManager auditOperationManager(){
+        return new AuditOperationManager(URL);
     }
 
     @Bean
