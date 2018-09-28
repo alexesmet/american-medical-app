@@ -1,6 +1,6 @@
 package com.itsm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class AuditOperation {
     private final long id;
@@ -17,7 +17,7 @@ public class AuditOperation {
 
     public AuditOperation(boolean successful, String action) {
         this.id = 0;
-        this.date = new Date(new java.util.Date().getTime());
+        this.date = new Date();
         this.successful = successful;
         this.action = action;
     }

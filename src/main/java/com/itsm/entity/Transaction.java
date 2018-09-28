@@ -1,6 +1,6 @@
 package com.itsm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Transaction {
     private final long id;
@@ -19,7 +19,7 @@ public class Transaction {
         this.id = 0;
         this.patient = patient;
         this.product = product;
-        this.datetime = new Date(new java.util.Date().getTime());
+        this.datetime = new Date();
     }
 
     public long getId() {
