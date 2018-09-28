@@ -1,2 +1,5 @@
 rootProject.name = 'american-medical-app'
+include 'common'
+include 'frontend'
+include 'excel-reporter'
 
