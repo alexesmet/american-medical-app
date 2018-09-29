@@ -34,8 +34,8 @@ public class SpringConfig {
     private Environment environment;
 
 
-    @Value("${database.fullurl}")  //TODO: Change to it
-    //    @Value("jdbc:mysql://localhost:3306/american_medical_app?user=root&password=root&useSSL=false")
+//    @Value("${database.fullurl}")  //TODO: Change to it
+    @Value("jdbc:mysql://localhost:3306/american_medical_app?user=root&password=root&useSSL=false")
     private String URL;
 
     @Bean

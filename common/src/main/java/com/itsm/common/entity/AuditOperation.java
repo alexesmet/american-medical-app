@@ -22,6 +22,14 @@ public class AuditOperation {
         this.action = action;
     }
 
+    //Constructor for MyBatis in report-generator
+    public AuditOperation(Long id, java.sql.Timestamp date, Boolean successful, String action){
+        this.id = id;
+        this.date = new Date(date.getTime());
+        this.successful = successful;
+        this.action = action;
+    }
+
     public long getId() {
         return id;
     }
