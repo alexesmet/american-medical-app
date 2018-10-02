@@ -19,6 +19,9 @@
         <mapper class="com.itsm.reporter.mappers.AuditOperationMapper"/>
         <mapper class="com.itsm.reporter.mappers.ClientMapper"/>
         <mapper class="com.itsm.reporter.mappers.StateMapper"/>
+        <mapper class="com.itsm.reporter.mappers.ProductMapper"/>
+        <mapper class="com.itsm.reporter.mappers.TransactionMapper"/>
+
 
     </mappers>
 </configuration>
