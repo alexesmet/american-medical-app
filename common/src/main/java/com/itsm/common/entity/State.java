@@ -3,12 +3,11 @@ package com.itsm.common.entity;
 import java.util.Objects;
 
 public class State {
-    private final long id;
+    private long id;
     private int code;
     private String name;
 
-    public State(long id) {
-        this.id = id;
+    public State() {
     }
 
     public State(long id, byte code, String name) {

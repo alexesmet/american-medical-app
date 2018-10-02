@@ -3,13 +3,11 @@ package com.itsm.common.entity;
 import java.util.Objects;
 
 public class Product {
-    private final long id;
+    private long id;
     private String name;
     private State state;
 
-    public Product(long id) {
-        this.id = id;
-    }
+    public Product() {}
 
     public Product(long id, String name, State state) {
         this.id = id;

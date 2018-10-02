@@ -3,13 +3,12 @@ package com.itsm.common.entity;
 import java.util.Date;
 
 public class Transaction {
-    private final long id;
+    private long id;
     private Client patient;
     private Product product;
     private Date datetime;
 
-    public Transaction(long id) {
-        this.id = id;
+    public Transaction() {
     }
 
     public Transaction(long id, Client patient, Product product, Date datetime) {

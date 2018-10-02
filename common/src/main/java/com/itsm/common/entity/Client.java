@@ -3,14 +3,12 @@ package com.itsm.common.entity;
 import java.util.Objects;
 
 public class Client {
-    private final long id;
+    private long id;
     private String name;
     private String phone;
     private State state;
 
-    public Client(long id) {
-        this.id = id;
-    }
+    public Client() {}
 
     public Client(long id, String name, String phone, State state) {
         this.id = id;

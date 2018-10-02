@@ -3,14 +3,12 @@ package com.itsm.common.entity;
 import java.util.Date;
 
 public class AuditOperation {
-    private final long id;
+    private long id;
     private Date date;
     private boolean successful;
     private String action;
 
-    public AuditOperation(long id) {
-        this.id = id;
-    }
+    public AuditOperation() {}
 
     public AuditOperation(long id, Date date, boolean successful, String action) {
         this.id = id;
