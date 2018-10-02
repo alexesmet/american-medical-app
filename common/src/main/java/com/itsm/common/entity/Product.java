@@ -7,6 +7,10 @@ public class Product {
     private String name;
     private State state;
 
+    public Product(long id) {
+        this.id = id;
+    }
+
     public Product(long id, String name, State state) {
         this.id = id;
         this.name = name;

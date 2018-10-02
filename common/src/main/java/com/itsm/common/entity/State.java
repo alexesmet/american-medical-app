@@ -7,6 +7,10 @@ public class State {
     private int code;
     private String name;
 
+    public State(long id) {
+        this.id = id;
+    }
+
     public State(long id, byte code, String name) {
         this.id = id;
         this.code = code;

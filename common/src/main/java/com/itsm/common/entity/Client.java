@@ -8,6 +8,10 @@ public class Client {
     private String phone;
     private State state;
 
+    public Client(long id) {
+        this.id = id;
+    }
+
     public Client(long id, String name, String phone, State state) {
         this.id = id;
         this.name = name;

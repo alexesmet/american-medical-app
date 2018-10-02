@@ -1,13 +1,13 @@
-package com.itsm.reporter;
+package com.itsm.reporter.operation;
 
 import com.itsm.common.entity.AuditOperation;
+import com.itsm.reporter.mappers.AuditOperationMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,11 +27,12 @@ public class Main {
         SqlSession session = sqlSessionFactory.openSession();
         AuditOperationMapper mapper = session.getMapper(AuditOperationMapper.class);
         List<AuditOperation> auditOperations = mapper.getAll();
+        session.close();
 
         WorkbookFactory workbookFactory = new WorkbookFactory(dateFormat);
         Workbook book = workbookFactory.generate(auditOperations);
 
-        book.write(new FileOutputStream("reports/excel/" + dateFormat.format(new Date()) + ".xls"));
+        book.write(new FileOutputStream("reports/excel/audit-operation/" + dateFormat.format(new Date()) + ".xls"));
         book.close();
 
     }

@@ -1,4 +1,4 @@
-package com.itsm.reporter;
+package com.itsm.reporter.mappers;
 
 import com.itsm.common.entity.AuditOperation;
 import org.apache.ibatis.annotations.Select;

@@ -8,6 +8,10 @@ public class AuditOperation {
     private boolean successful;
     private String action;
 
+    public AuditOperation(long id) {
+        this.id = id;
+    }
+
     public AuditOperation(long id, Date date, boolean successful, String action) {
         this.id = id;
         this.date = date;

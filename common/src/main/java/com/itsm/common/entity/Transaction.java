@@ -8,6 +8,10 @@ public class Transaction {
     private Product product;
     private Date datetime;
 
+    public Transaction(long id) {
+        this.id = id;
+    }
+
     public Transaction(long id, Client patient, Product product, Date datetime) {
         this.id = id;
         this.patient = patient;
