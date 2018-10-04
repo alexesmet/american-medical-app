@@ -34,8 +34,7 @@ public class SpringConfig {
     private Environment environment;
 
 
-//    @Value("${database.fullurl}")  //TODO: Change to it
-    @Value("jdbc:mysql://localhost:3306/american_medical_app?user=root&password=root&useSSL=false")
+    @Value("${database.fullurl}")
     private String URL;
 
     @Bean
@@ -92,7 +91,6 @@ public class SpringConfig {
 
     @Bean
     public SpringLiquibase liquibase(DataSource ds) {
-        System.out.println("################# " + URL);
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(ds);
         liquibase.setChangeLog("classpath:liquibase/db.changelog.master.xml");

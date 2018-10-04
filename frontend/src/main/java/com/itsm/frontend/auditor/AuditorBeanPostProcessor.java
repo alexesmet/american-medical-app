@@ -5,6 +5,7 @@ import com.itsm.frontend.util.Manager;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -19,6 +20,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
     private Map<String, BeanMarkedMethods> beans = new HashMap<>();
 
+    @Lazy
     @Autowired
     private Manager<AuditOperation> auditOperationManager;
 
