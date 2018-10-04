@@ -4,6 +4,7 @@ import com.itsm.common.entity.Client;
 import com.itsm.common.entity.State;
 import com.itsm.frontend.auditor.Auditable;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,17 +12,17 @@ import java.util.List;
 
 public class ClientStorage implements Storage<Client> {
 
-    private final String url;
+    private final DataSource dataSource;
     private final Storage<State> stateStorage;
 
-    public ClientStorage(String url, Storage<State> stateStorage) {
-        this.url = url;
+    public ClientStorage(DataSource dataSource, Storage<State> stateStorage) {
+        this.dataSource = dataSource;
         this.stateStorage = stateStorage;
     }
 
     @Override
     public Client get(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT * FROM clients WHERE id=" + id);
         Client client = null;
@@ -38,7 +39,7 @@ public class ClientStorage implements Storage<Client> {
 
     @Override
     public List<Client> getAll() throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT * FROM clients");
         List<Client> list= new LinkedList<>();
@@ -46,6 +47,7 @@ public class ClientStorage implements Storage<Client> {
             Client client = new Client(rs.getLong("id"),rs.getString("name"),rs.getString("phone"),stateStorage.get(rs.getLong("state_id")));
             list.add(client);
         }
+        connection.close();
         return list;
 
     }
@@ -53,7 +55,7 @@ public class ClientStorage implements Storage<Client> {
     @Override
     @Auditable
     public void add(Client o) throws SQLException{
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO clients (name, phone,state_id) VALUES (?, ?, ?)");
         ps.setString(1,o.getName());
         ps.setString(2,o.getPhone());
@@ -66,7 +68,7 @@ public class ClientStorage implements Storage<Client> {
     @Override
     @Auditable
     public void update(Client o) throws SQLException{
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE clients SET name = ?, phone = ?, state_id = ? WHERE id = ?");
         ps.setString(1,o.getName());
         ps.setString(2,o.getPhone());
@@ -81,7 +83,7 @@ public class ClientStorage implements Storage<Client> {
     @Override
     @Auditable
     public void delete(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM clients WHERE `id` = ?");
         ps.setLong(1,id);
         ps.execute();
@@ -91,7 +93,7 @@ public class ClientStorage implements Storage<Client> {
 
     @Override
     public boolean contains(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("SELECT name FROM clients WHERE id = ?");
         ps.setLong(1,id);
         ps.execute();

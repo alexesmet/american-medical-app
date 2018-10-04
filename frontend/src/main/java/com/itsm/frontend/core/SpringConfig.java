@@ -45,18 +45,18 @@ public class SpringConfig {
     }
 
     @Bean
-    public StateStorage stateStorage() {
-        return new StateStorage(URL);
+    public StateStorage stateStorage(DataSource dataSource) {
+        return new StateStorage(dataSource);
     }
 
     @Bean
-    public ClientStorage clientStorage(Storage<State> stateStorage) {
-        return new ClientStorage(URL, stateStorage);
+    public ClientStorage clientStorage(Storage<State> stateStorage, DataSource dataSource) {
+        return new ClientStorage(dataSource, stateStorage);
     }
 
     @Bean
-    public ProductStorage productStorage(Storage<State> stateStorage) {
-        return new ProductStorage(URL, stateStorage);
+    public ProductStorage productStorage(Storage<State> stateStorage, DataSource dataSource) {
+        return new ProductStorage(dataSource, stateStorage);
     }
 
     @Bean

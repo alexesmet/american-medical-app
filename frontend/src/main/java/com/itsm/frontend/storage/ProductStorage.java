@@ -4,22 +4,25 @@ import com.itsm.common.entity.Product;
 import com.itsm.common.entity.State;
 import com.itsm.frontend.auditor.Auditable;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ProductStorage implements Storage<Product> {
-    private final String url;
+
+    private final DataSource dataSource;
     private final Storage<State> stateStorage;
 
-    public ProductStorage(String url, Storage<State> stateStorage) {
-        this.url = url;
+    public ProductStorage(DataSource dataSource, Storage<State> stateStorage) {
+        this.dataSource = dataSource;
         this.stateStorage = stateStorage;
     }
 
+
     @Override
     public Product get(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT * FROM products WHERE id=" + id);
         Product product = null;
@@ -36,7 +39,7 @@ public class ProductStorage implements Storage<Product> {
 
     @Override
     public List<Product> getAll() throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT * FROM products");
         List<Product> list= new LinkedList<>();
@@ -44,13 +47,14 @@ public class ProductStorage implements Storage<Product> {
             Product product = new Product(rs.getLong("id"),rs.getString("name"),stateStorage.get(rs.getLong("state_id")));
             list.add(product);
         }
+        connection.close();
         return list;
     }
 
     @Override
     @Auditable
     public void add(Product o) throws SQLException{
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO products (name,state_id) VALUES (?, ?)");
         ps.setString(1,o.getName());
         ps.setLong(2,o.getState().getId());
@@ -62,7 +66,7 @@ public class ProductStorage implements Storage<Product> {
     @Override
     @Auditable
     public void update(Product o) throws SQLException{
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE products SET name = ?, state_id = ? WHERE id = ?");
         ps.setString(1,o.getName());
         ps.setLong(2,o.getState().getId());
@@ -76,7 +80,7 @@ public class ProductStorage implements Storage<Product> {
     @Override
     @Auditable
     public void delete(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM products WHERE `id` = ?");
         ps.setLong(1,id);
         ps.execute();
@@ -86,7 +90,7 @@ public class ProductStorage implements Storage<Product> {
 
     @Override
     public boolean contains(long id) throws SQLException {
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement("SELECT name FROM products WHERE id = ?");
         ps.setLong(1,id);
         ps.execute();
