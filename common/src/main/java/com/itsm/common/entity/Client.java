@@ -1,68 +1,26 @@
 package com.itsm.common.entity;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity(name = "client")
+@Table(name = "clients")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     private String phone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "state_id")
     private State state;
-
-    public Client() {}
-
-    public Client(long id, String name, String phone, State state) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.state = state;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Client)) return false;
-        Client client = (Client) o;
-        return getId() == client.getId() &&
-                Objects.equals(getName(), client.getName()) &&
-                Objects.equals(getPhone(), client.getPhone()) &&
-                Objects.equals(getState(), client.getState());
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", state=" + state +
-                '}';
-    }
 }

@@ -1,57 +1,23 @@
 package com.itsm.common.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "state")
+@Table(name = "states")
 public class State {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
     private int code;
     private String name;
-
-    public State() {
-    }
-
-    public State(long id, byte code, String name) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof State)) return false;
-        State state = (State) o;
-        return getId() == state.getId() &&
-                getCode() == state.getCode() &&
-                Objects.equals(getName(), state.getName());
-    }
-
-    @Override
-    public String toString() {
-        return "State{" +
-                "id=" + id +
-                ", code=" + code +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

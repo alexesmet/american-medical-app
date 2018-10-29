@@ -13,7 +13,6 @@ import com.itsm.frontend.factory.TransactionFactory;
 import com.itsm.frontend.storage.Storage;
 import com.itsm.frontend.util.AuditOperationManager;
 import com.itsm.frontend.util.TransactionManager;
-import com.mysql.cj.jdbc.MysqlDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.vibur.dbcp.ViburDBCPDataSource;
 
 import javax.sql.DataSource;
 
@@ -34,14 +34,32 @@ public class SpringConfig {
     private Environment environment;
 
 
-    @Value("${database.fullurl}")
+    @Value("${database.url}")
     private String URL;
 
+    @Value("${database.user}")
+    private String databaseUsername;
+
+
+    @Value("${database.password}")
+    private String databasePassword;
+
+    @Value("${database,driver}")
+    private String databaseDriver;
+
+
     @Bean
-    public DataSource dataSource() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL(URL);
-        return dataSource;
+    public DataSource ds() {
+        ViburDBCPDataSource ds = new ViburDBCPDataSource();
+
+        ds.setDriverClassName(databaseDriver);
+        ds.setJdbcUrl(URL);
+        ds.setUsername(databaseUsername);
+        ds.setPassword(databasePassword);
+
+        ds.start();
+
+        return ds;
     }
 
     @Bean
