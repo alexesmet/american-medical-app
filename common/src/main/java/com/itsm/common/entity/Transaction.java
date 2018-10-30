@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity(name = "transaction")
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

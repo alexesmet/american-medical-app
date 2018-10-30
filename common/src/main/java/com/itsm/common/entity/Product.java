@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity(name = "product")
 @Table(name = "products")
-public class Product {
+public class Product implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

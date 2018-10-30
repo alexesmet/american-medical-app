@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client {
+public class Client implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

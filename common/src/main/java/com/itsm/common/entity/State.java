@@ -12,7 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity(name = "state")
 @Table(name = "states")
-public class State {
+public class State implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
