@@ -26,4 +26,10 @@ public class AuditOperation {
     @Column(name = "success")
     private boolean successful;
     private String action;
+
+    public AuditOperation(boolean successful, String action) {
+        this.date = new Date();
+        this.successful = successful;
+        this.action = action;
+    }
 }

@@ -28,4 +28,9 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     private Date datetime;
 
+    public Transaction(Client patient, Product product) {
+        this.patient = patient;
+        this.product = product;
+        this.datetime = new Date();
+    }
 }
