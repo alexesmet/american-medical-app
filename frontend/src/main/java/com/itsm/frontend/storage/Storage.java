@@ -4,15 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Storage<T> {
-    T get(long id) throws SQLException;
+    T get(long id);
 
-    List<T> getAll() throws SQLException;
+    List<T> getAll();
 
-    void add(T o) throws SQLException;
+    void add(T o);
 
-    void update(T o) throws SQLException;
+    void update(T o);
 
-    void delete(long id) throws SQLException;
+    void delete(long id);
 
-    boolean contains(long id) throws SQLException;
+    boolean contains(long id);
 }
