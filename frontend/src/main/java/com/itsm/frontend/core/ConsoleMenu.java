@@ -6,11 +6,9 @@ import com.itsm.common.entity.State;
 import com.itsm.common.entity.Transaction;
 import com.itsm.frontend.factory.Factory;
 import com.itsm.frontend.storage.Storage;
-import com.itsm.frontend.util.Manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 @Component("ConsoleMenu")
@@ -18,10 +16,10 @@ public class ConsoleMenu implements Runnable{
     private final CrudMenu clientCRUD;
     private final CrudMenu productCRUD;
     private final CrudMenu stateCRUD;
-    private final Manager<Transaction> transactionManager;
+    private final Storage<Transaction> transactionStorage;
     private final Factory<Transaction> transactionFactory;
 
-    private Scanner sc;
+    private final Scanner sc;
 
     @Autowired
     public ConsoleMenu(Storage<Client> clientStorage,
@@ -31,9 +29,9 @@ public class ConsoleMenu implements Runnable{
                        Factory<Product> productFactory,
                        Factory<State> stateFactory,
                        Factory<Transaction> transactionFactory,
-                       Manager<Transaction> transactionManager) {
+                       Storage<Transaction> transactionStorage) {
 
-        this.transactionManager = transactionManager;
+        this.transactionStorage = transactionStorage;
         this.transactionFactory = transactionFactory;
         clientCRUD = new CrudMenu(clientStorage,clientFactory);
         productCRUD = new CrudMenu(productStorage,productFactory);
@@ -61,12 +59,8 @@ public class ConsoleMenu implements Runnable{
                     stateCRUD.run();
                     break;
                 case 4:
-                    try {
-                        Transaction t = transactionFactory.create(0);
-                        transactionManager.execute(t);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    Transaction t = transactionFactory.create(0);
+                    transactionStorage.add(t);
                     break;
                 case 0:
                     System.out.println("Bye.");

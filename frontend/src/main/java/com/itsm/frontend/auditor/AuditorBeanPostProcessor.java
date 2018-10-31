@@ -1,7 +1,7 @@
 package com.itsm.frontend.auditor;
 
 import com.itsm.common.entity.AuditOperation;
-import com.itsm.frontend.util.Manager;
+import com.itsm.frontend.storage.AuditOperationStorage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -22,7 +22,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
     @Lazy
     @Autowired
-    private Manager<AuditOperation> auditOperationManager;
+    private AuditOperationStorage auditOperationStorage;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -63,7 +63,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
                             } finally {
                                 String action = method.getName() + " in " + original.getClass().getName();
                                 AuditOperation auditOperation = new AuditOperation(success, action);
-                                auditOperationManager.execute(auditOperation);
+                                auditOperationStorage.add(auditOperation);
                             }
 
                         } else {

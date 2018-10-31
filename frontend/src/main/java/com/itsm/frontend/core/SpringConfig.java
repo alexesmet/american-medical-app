@@ -3,16 +3,11 @@ package com.itsm.frontend.core;
 import com.itsm.common.entity.Client;
 import com.itsm.common.entity.Product;
 import com.itsm.common.entity.State;
-import com.itsm.frontend.storage.ClientStorage;
-import com.itsm.frontend.storage.ProductStorage;
-import com.itsm.frontend.storage.StateStorage;
 import com.itsm.frontend.factory.ClientFactory;
 import com.itsm.frontend.factory.ProductFactory;
 import com.itsm.frontend.factory.StateFactory;
 import com.itsm.frontend.factory.TransactionFactory;
 import com.itsm.frontend.storage.Storage;
-import com.itsm.frontend.util.AuditOperationManager;
-import com.itsm.frontend.util.TransactionManager;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,21 +65,6 @@ public class SpringConfig {
     }
 
     @Bean
-    public StateStorage stateStorage(DataSource dataSource) {
-        return new StateStorage(dataSource);
-    }
-
-    @Bean
-    public ClientStorage clientStorage(Storage<State> stateStorage, DataSource dataSource) {
-        return new ClientStorage(dataSource, stateStorage);
-    }
-
-    @Bean
-    public ProductStorage productStorage(Storage<State> stateStorage, DataSource dataSource) {
-        return new ProductStorage(dataSource, stateStorage);
-    }
-
-    @Bean
     public StateFactory stateFactory() {
         return new StateFactory();
     }
@@ -104,15 +84,7 @@ public class SpringConfig {
         return new TransactionFactory(clientStorage,productStorage);
     }
 
-    @Bean
-    public TransactionManager transactionManager(){
-        return new TransactionManager(URL);
-    }
 
-    @Bean
-    public AuditOperationManager auditOperationManager(){
-        return new AuditOperationManager(URL);
-    }
 
     @Bean
     public SpringLiquibase liquibase(DataSource ds) {
@@ -146,7 +118,7 @@ public class SpringConfig {
                 = new LocalContainerEntityManagerFactoryBean();
 
         factoryBean.setDataSource(ds);
-        factoryBean.setPackagesToScan("com.itsm.pub.courses.patients.common.entities");
+        factoryBean.setPackagesToScan("com.itsm.common.entities");
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         factoryBean.setJpaProperties(jpaProperties);
 

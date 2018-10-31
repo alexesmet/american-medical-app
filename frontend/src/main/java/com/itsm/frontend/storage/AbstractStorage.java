@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.sql.SQLException;
 import java.util.List;
 
 public abstract class AbstractStorage<E extends EntityInterface> implements Storage<E> {

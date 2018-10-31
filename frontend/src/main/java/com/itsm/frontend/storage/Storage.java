@@ -1,6 +1,5 @@
 package com.itsm.frontend.storage;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Storage<T> {

@@ -6,7 +6,6 @@ import com.itsm.common.entity.Transaction;
 import com.itsm.frontend.storage.Storage;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Scanner;
 
 public class TransactionFactory implements Factory<Transaction> {
@@ -26,20 +25,14 @@ public class TransactionFactory implements Factory<Transaction> {
         long client_id = sc.nextLong();
         System.out.print("Medicine id: ");
         long product_id = sc.nextLong();
-        try {
-            if (!clientStorage.contains(client_id)) {
-                System.out.println("No such client id");
-            }
-            if (!productStorage.contains(product_id)) {
-                System.out.println("No such product id");
-            }
-            System.out.println("Transaction created...");
-            return new Transaction(clientStorage.get(client_id),productStorage.get(product_id));
-        } catch (SQLException e) {
-            System.out.println("Unexpected SQLException!");
-            e.printStackTrace();
+        if (!clientStorage.contains(client_id)) {
+            System.out.println("No such client id");
         }
-        return null;
+        if (!productStorage.contains(product_id)) {
+            System.out.println("No such product id");
+        }
+        System.out.println("Transaction created...");
+        return new Transaction(clientStorage.get(client_id),productStorage.get(product_id));
 
     }
 }

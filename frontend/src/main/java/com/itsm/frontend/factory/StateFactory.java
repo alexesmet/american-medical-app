@@ -13,7 +13,6 @@ public class StateFactory implements Factory<State> {
         String name = sc.nextLine();
         System.out.print("State's code: ");
         byte code = sc.nextByte();
-        State result = new State(id,code,name);
-        return result;
+        return new State(id,code,name);
     }
 }
