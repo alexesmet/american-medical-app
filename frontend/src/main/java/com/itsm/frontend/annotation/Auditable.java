@@ -1,4 +1,4 @@
-package com.itsm.frontend.auditor;
+package com.itsm.frontend.annotation;
 
 import java.lang.annotation.*;
 

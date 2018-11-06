@@ -25,6 +25,7 @@ public class Transaction implements EntityInterface  {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datetime;
 

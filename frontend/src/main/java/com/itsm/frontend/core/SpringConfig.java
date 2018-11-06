@@ -21,6 +21,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.vibur.dbcp.ViburDBCPDataSource;
 
 import javax.persistence.EntityManagerFactory;
@@ -30,6 +31,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("com.itsm.frontend")
 @PropertySource("classpath:database.properties")
+@EnableTransactionManagement
 public class SpringConfig {
 
     @Autowired
@@ -118,7 +120,7 @@ public class SpringConfig {
                 = new LocalContainerEntityManagerFactoryBean();
 
         factoryBean.setDataSource(ds);
-        factoryBean.setPackagesToScan("com.itsm.common.entities");
+        factoryBean.setPackagesToScan("com.itsm.common.entity");
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         factoryBean.setJpaProperties(jpaProperties);
 

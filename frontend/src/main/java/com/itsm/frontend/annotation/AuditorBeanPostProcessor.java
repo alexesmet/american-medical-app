@@ -1,4 +1,4 @@
-package com.itsm.frontend.auditor;
+package com.itsm.frontend.annotation;
 
 import com.itsm.common.entity.AuditOperation;
 import com.itsm.frontend.storage.AuditOperationStorage;
@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class AuditorBeanPostProcessor implements BeanPostProcessor {
@@ -48,9 +45,11 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
         if (beans.containsKey(beanName)) {
             BeanMarkedMethods beanMarkedMethods = beans.get(beanName);
             Object original = beanMarkedMethods.getOriginalBean();
+            Class<?>[] classes = recursiveFindInterfaces(original);
+            System.out.println("this");
             return Proxy.newProxyInstance(
                     original.getClass().getClassLoader(),
-                    original.getClass().getInterfaces(),
+                    recursiveFindInterfaces(original),
                     (proxy, method, args) -> {
                         Object result;
                         if (beanMarkedMethods.contains(method.getName())) {
@@ -75,6 +74,24 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
         }
         return bean;
+    }
+
+    private Class<?>[] recursiveFindInterfaces(Object o){
+        Class<?> current = o.getClass();
+        List<Class<?>> interfaces = new LinkedList<>();
+        while (true) {
+            Class<?>[] currentInterfaces = current.getInterfaces();
+            interfaces.addAll(Arrays.asList(currentInterfaces));
+            current = current.getSuperclass();
+            if (current==Object.class) {
+                break;
+            }
+        }
+        Class<?>[] result = new Class[interfaces.size()];
+        for (int i = 0; i < interfaces.size(); i++) {
+            result[i] = interfaces.get(i);
+        }
+        return result;
     }
 
 

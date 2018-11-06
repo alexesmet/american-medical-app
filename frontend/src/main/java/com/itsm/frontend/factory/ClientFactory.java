@@ -25,16 +25,11 @@ public class ClientFactory implements Factory<Client> {
         System.out.print("Client's state id: ");
         long state_id = sc.nextLong();
         Client result = null;
-        try {
-            if (stateStorage.contains(state_id)){
-                State state = stateStorage.get(state_id);
-                result = new Client(id,name,phone,state);
-            } else {
-                System.out.println("Looks like there is no such state id.");
-            }
-        } catch (SQLException e) {
-            System.err.println("stateStorage reports: " + e.getMessage());
-            System.err.println("Could not create object.");
+        if (stateStorage.contains(state_id)){
+            State state = stateStorage.get(state_id);
+            result = new Client(id,name,phone,state);
+        } else {
+            System.out.println("Looks like there is no such state id.");
         }
         return result;
     }

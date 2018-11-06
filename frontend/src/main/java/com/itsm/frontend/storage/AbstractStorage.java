@@ -1,6 +1,7 @@
 package com.itsm.frontend.storage;
 
 import com.itsm.common.entity.EntityInterface;
+import com.itsm.frontend.annotation.Auditable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Entity;
@@ -23,16 +24,19 @@ public abstract class AbstractStorage<E extends EntityInterface> implements Stor
         return em.find(getEntityClass(), id);
     }
 
+    @Auditable
     @Transactional
     public void add(E e) {
         em.persist(e);
     }
 
+    @Auditable
     @Transactional
     public void update(E e) {
         em.merge(e);
     }
 
+    @Auditable
     @Transactional
     public void delete(E e) {
         em.remove(e);
