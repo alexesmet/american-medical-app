@@ -4,6 +4,7 @@ import com.itsm.common.entity.EntityInterface;
 import com.itsm.frontend.annotation.Auditable;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,7 +25,7 @@ public abstract class AbstractStorage<E extends EntityInterface> implements Stor
         return em.find(getEntityClass(), id);
     }
 
-    @Auditable
+    @Auditable //TODO: Fix @Auditable breaks @Transactional
     @Transactional
     public void add(E e) {
         em.persist(e);
@@ -42,13 +43,14 @@ public abstract class AbstractStorage<E extends EntityInterface> implements Stor
         em.remove(e);
     }
 
+    @Transactional
     public void delete(long id) {
         this.delete(this.get(id));
     }
 
     @Override
     public boolean contains(long id) {
-        return (null == this.get(id));
+        return (null != this.get(id));
     }
 
     protected abstract Class<E> getEntityClass();

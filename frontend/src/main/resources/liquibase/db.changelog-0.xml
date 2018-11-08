@@ -129,6 +129,12 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="7" author="alexey">
+        <addAutoIncrement columnDataType="bigint"
+                          columnName="id"
+                          tableName="users"/>
+    </changeSet>
+
 
 
 </databaseChangeLog>

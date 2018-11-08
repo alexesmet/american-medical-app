@@ -7,7 +7,11 @@ import com.itsm.frontend.factory.ClientFactory;
 import com.itsm.frontend.factory.ProductFactory;
 import com.itsm.frontend.factory.StateFactory;
 import com.itsm.frontend.factory.TransactionFactory;
+import com.itsm.frontend.session.ConsoleGreeter;
+import com.itsm.frontend.session.PasswordEncryptor;
+import com.itsm.frontend.session.UserSessionHolder;
 import com.itsm.frontend.storage.Storage;
+import com.itsm.frontend.storage.imp.UserStorage;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,6 +55,11 @@ public class SpringConfig {
     @Value("${database,driver}")
     private String databaseDriver;
 
+    @Bean
+    public UserSessionHolder userSessionHolder() {return new UserSessionHolder();}
+
+    @Bean
+    public PasswordEncryptor passwordEncryptor() {return new PasswordEncryptor();}
 
     @Bean
     public DataSource ds() {

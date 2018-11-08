@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "user")
+@Table(name = "users")
 public class User implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

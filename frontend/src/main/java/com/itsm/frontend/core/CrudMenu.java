@@ -19,7 +19,7 @@ public class CrudMenu<T> implements Runnable{
 
     public void run(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("### Crud menu for " + storage.getClass().getSimpleName() + " \n" +
+        System.out.print("### Crud menu  \n" +
                 " 1. Create new \n" +
                 " 2. Read all \n" +
                 " 3. Update one \n" +
@@ -45,7 +45,7 @@ public class CrudMenu<T> implements Runnable{
                 System.out.println("Done: printed " + all.size() + " elements.");
                 break;
             case 3:
-                System.out.print("Client to update: ");
+                System.out.print("ID to update: ");
                 long id = sc.nextLong();
                 if (storage.contains(id)){
                     T updated = factory.create(id);

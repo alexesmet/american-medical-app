@@ -8,8 +8,8 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         context.registerShutdownHook();
 
-        Runnable consoleMenu = (Runnable) context.getBean("ConsoleMenu");
-        consoleMenu.run();
+        Runnable consoleGreeter = (Runnable) context.getBean("ConsoleGreeter");
+        consoleGreeter.run();
 
     }
 }

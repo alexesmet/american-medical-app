@@ -1,6 +1,7 @@
-package com.itsm.frontend.storage;
+package com.itsm.frontend.storage.imp;
 
 import com.itsm.common.entity.Transaction;
+import com.itsm.frontend.storage.AbstractStorage;
 import org.springframework.stereotype.Repository;
 
 @Repository

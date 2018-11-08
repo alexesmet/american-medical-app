@@ -1,7 +1,11 @@
 package com.itsm.frontend.annotation;
 
 import com.itsm.common.entity.AuditOperation;
-import com.itsm.frontend.storage.AuditOperationStorage;
+import com.itsm.frontend.service.AuditOperationService;
+import com.itsm.frontend.session.UserSessionHolder;
+import com.itsm.frontend.storage.Storage;
+import com.itsm.frontend.storage.imp.AuditOperationStorage;
+import com.itsm.frontend.storage.interf.InterfaceAuditOperationStorage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -19,7 +23,11 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
     @Lazy
     @Autowired
-    private AuditOperationStorage auditOperationStorage;
+    private AuditOperationService aos;
+
+    @Lazy
+    @Autowired
+    private UserSessionHolder holder;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -27,7 +35,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
         Method[] beanMethods = bean.getClass().getMethods();
         for (Method m : beanMethods) {
             if (m.isAnnotationPresent(Auditable.class)) {
-                System.out.println("Found annotation on __" + m.getName() + "__ from " + beanName);
+                //System.out.println("Found annotation on __" + m.getName() + "__ from " + beanName);
                 if (beans.containsKey(beanName)) {
                     beans.get(beanName).add(m);
 
@@ -45,8 +53,6 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
         if (beans.containsKey(beanName)) {
             BeanMarkedMethods beanMarkedMethods = beans.get(beanName);
             Object original = beanMarkedMethods.getOriginalBean();
-            Class<?>[] classes = recursiveFindInterfaces(original);
-            System.out.println("this");
             return Proxy.newProxyInstance(
                     original.getClass().getClassLoader(),
                     recursiveFindInterfaces(original),
@@ -55,25 +61,27 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
                         if (beanMarkedMethods.contains(method.getName())) {
                             boolean success = true;
                             try {
-                                result = method.invoke(original, args);
+                                result = method.invoke(bean, args);
                             } catch (Exception e) {
                                 success = false;
                                 throw new Exception(e);
                             } finally {
-                                String action = method.getName() + " in " + original.getClass().getName();
+                                String action = holder.getUsername() + " (id=" + holder.getUser().getId() + ") inv:" +
+                                        method.getName() + " in " + original.getClass().getName();
                                 AuditOperation auditOperation = new AuditOperation(success, action);
-                                auditOperationStorage.add(auditOperation);
+                                aos.add(auditOperation);
                             }
 
                         } else {
-                            result = method.invoke(original, args);
+                            result = method.invoke(bean, args);
                         }
                         return result;
                     }
             );
 
+        } else {
+            return bean;
         }
-        return bean;
     }
 
     private Class<?>[] recursiveFindInterfaces(Object o){
