@@ -5,14 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "state")
 @Table(name = "states")
-public class State implements EntityInterface  {
+public class State extends MutableEntity implements EntityInterface  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

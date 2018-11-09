@@ -2,6 +2,8 @@ package com.itsm.frontend.storage;
 
 import com.itsm.common.entity.EntityInterface;
 import com.itsm.frontend.annotation.Auditable;
+import com.itsm.frontend.session.UserSessionHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -16,6 +18,9 @@ public abstract class AbstractStorage<E extends EntityInterface> implements Stor
     @PersistenceContext
     protected EntityManager em;
 
+    @Autowired
+    private UserSessionHolder userSessionHolder;
+
     public final  List<E> getAll() {
         TypedQuery<E> query =  em.createQuery("from " + getEntityClass().getAnnotation(Entity.class).name(), getEntityClass());
         return query.getResultList();
@@ -25,15 +30,17 @@ public abstract class AbstractStorage<E extends EntityInterface> implements Stor
         return em.find(getEntityClass(), id);
     }
 
-    @Auditable //TODO: Fix @Auditable breaks @Transactional
+    @Auditable
     @Transactional
     public void add(E e) {
+        e.setCreatedBy(userSessionHolder.getUser());
         em.persist(e);
     }
 
     @Auditable
     @Transactional
     public void update(E e) {
+        e.setUpdatedBy(userSessionHolder.getUser());
         em.merge(e);
     }
 

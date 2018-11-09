@@ -66,7 +66,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
                                 success = false;
                                 throw new Exception(e);
                             } finally {
-                                String action = holder.getUsername() + " (id=" + holder.getUser().getId() + ") inv:" +
+                                String action = holder.getUsername() + "(id=" + holder.getUser().getId() + ") inv: " +
                                         method.getName() + " in " + original.getClass().getName();
                                 AuditOperation auditOperation = new AuditOperation(success, action);
                                 aos.add(auditOperation);

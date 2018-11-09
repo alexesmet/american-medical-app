@@ -137,6 +137,81 @@
 
 
 
+    <changeSet id="8" author="alexey">
+        <addColumn tableName="clients">
+
+            <column name="created_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="created_time" type="timestamp" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="updated_time" type="timestamp" >
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+
+        <addForeignKeyConstraint baseColumnNames="created_by"
+                                 baseTableName="clients"
+                                 constraintName="clients_created_by_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="updated_by"
+                                 baseTableName="clients"
+                                 constraintName="clients_product_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addColumn tableName="products">
+            <column name="created_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="created_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="updated_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="created_by"
+                                 baseTableName="products"
+                                 constraintName="products_created_by_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="updated_by"
+                                 baseTableName="products"
+                                 constraintName="products_product_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addColumn tableName="states">
+            <column name="created_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="created_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="updated_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="created_by"
+                                 baseTableName="states"
+                                 constraintName="states_created_by_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="updated_by"
+                                 baseTableName="states"
+                                 constraintName="states_product_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+
+
 </databaseChangeLog>
 
 
