@@ -4,7 +4,6 @@ import com.itsm.common.entity.Client;
 import com.itsm.common.entity.State;
 import com.itsm.frontend.storage.Storage;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ClientFactory implements Factory<Client> {

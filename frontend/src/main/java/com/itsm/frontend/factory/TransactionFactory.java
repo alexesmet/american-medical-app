@@ -7,7 +7,6 @@ import com.itsm.frontend.annotation.Auditable;
 import com.itsm.frontend.storage.Storage;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class TransactionFactory implements Factory<Transaction> {

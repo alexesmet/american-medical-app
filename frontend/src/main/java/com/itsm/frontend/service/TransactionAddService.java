@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.InputMismatchException;
 
 @Service
 public class TransactionAddService implements AddServiceInterface<Transaction> {

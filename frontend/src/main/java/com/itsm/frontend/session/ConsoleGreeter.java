@@ -2,12 +2,10 @@ package com.itsm.frontend.session;
 
 import com.itsm.common.entity.User;
 import com.itsm.frontend.core.ConsoleMenu;
-import com.itsm.frontend.storage.imp.UserStorage;
 import com.itsm.frontend.storage.interf.InterfaceUserStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
 import java.util.Scanner;
 
 @Component("ConsoleGreeter")
@@ -60,7 +58,6 @@ public class ConsoleGreeter implements Runnable {
                 consoleMenu.run();
             } else {
                 System.out.println("Incorrect password.");
-                continue;
             }
         }
     }

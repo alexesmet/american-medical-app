@@ -1,13 +1,12 @@
 package com.itsm.frontend.core;
 
-import com.itsm.frontend.storage.Storage;
 import com.itsm.frontend.factory.Factory;
+import com.itsm.frontend.storage.Storage;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class CrudMenu<T> implements Runnable{
+class CrudMenu<T> implements Runnable{
 
     private final Storage<T> storage;
     private final Factory<T> factory;
