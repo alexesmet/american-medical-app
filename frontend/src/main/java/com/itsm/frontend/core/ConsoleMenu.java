@@ -5,6 +5,8 @@ import com.itsm.common.entity.Product;
 import com.itsm.common.entity.State;
 import com.itsm.common.entity.Transaction;
 import com.itsm.frontend.factory.Factory;
+import com.itsm.frontend.service.AddServiceInterface;
+import com.itsm.frontend.service.TransactionAddService;
 import com.itsm.frontend.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,8 +18,8 @@ public class ConsoleMenu implements Runnable{
     private final CrudMenu clientCRUD;
     private final CrudMenu productCRUD;
     private final CrudMenu stateCRUD;
-    private final Storage<Transaction> transactionStorage;
     private final Factory<Transaction> transactionFactory;
+    private final AddServiceInterface<Transaction> transactionAddService;
 
     private final Scanner sc;
 
@@ -29,10 +31,10 @@ public class ConsoleMenu implements Runnable{
                        Factory<Product> productFactory,
                        Factory<State> stateFactory,
                        Factory<Transaction> transactionFactory,
-                       Storage<Transaction> transactionStorage) {
+                       AddServiceInterface<Transaction> transactionAddService) {
 
-        this.transactionStorage = transactionStorage;
         this.transactionFactory = transactionFactory;
+        this.transactionAddService = transactionAddService;
         clientCRUD = new CrudMenu(clientStorage,clientFactory);
         productCRUD = new CrudMenu(productStorage,productFactory);
         stateCRUD = new CrudMenu(stateStorage,stateFactory);
@@ -60,7 +62,11 @@ public class ConsoleMenu implements Runnable{
                     break;
                 case 4:
                     Transaction t = transactionFactory.create(0);
-                    transactionStorage.add(t);
+                    try {
+                        transactionAddService.add(t);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 0:
                     System.out.println("Bye.");

@@ -30,6 +30,7 @@ public abstract class MutableEntity implements EntityInterface {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
     }
 
     public void setUpdatedBy(User updatedBy) {

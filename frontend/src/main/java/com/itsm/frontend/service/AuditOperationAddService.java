@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Service
-public class AuditOperationService {
+public class AuditOperationAddService {
     @PersistenceContext
     protected EntityManager em;
 

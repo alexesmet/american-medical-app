@@ -1,11 +1,8 @@
 package com.itsm.frontend.annotation;
 
 import com.itsm.common.entity.AuditOperation;
-import com.itsm.frontend.service.AuditOperationService;
+import com.itsm.frontend.service.AuditOperationAddService;
 import com.itsm.frontend.session.UserSessionHolder;
-import com.itsm.frontend.storage.Storage;
-import com.itsm.frontend.storage.imp.AuditOperationStorage;
-import com.itsm.frontend.storage.interf.InterfaceAuditOperationStorage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -23,7 +20,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
 
     @Lazy
     @Autowired
-    private AuditOperationService aos;
+    private AuditOperationAddService aos;
 
     @Lazy
     @Autowired
@@ -64,7 +61,7 @@ public class AuditorBeanPostProcessor implements BeanPostProcessor {
                                 result = method.invoke(bean, args);
                             } catch (Exception e) {
                                 success = false;
-                                throw new Exception(e);
+                                throw e;
                             } finally {
                                 String action = holder.getUsername() + "(id=" + holder.getUser().getId() + ") inv: " +
                                         method.getName() + " in " + original.getClass().getName();
