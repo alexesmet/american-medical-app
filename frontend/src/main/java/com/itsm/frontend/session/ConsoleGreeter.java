@@ -28,13 +28,22 @@ public class ConsoleGreeter implements Runnable {
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
-        //TODO: Add invisible console
+
         while(true) {
             System.out.println("Enter username/email and password.");
             System.out.print("  Username: ");
             String name = sc.nextLine();
-            System.out.print("  Password: ");
-            String pswd = sc.nextLine();
+
+
+            String pswd;
+            if (System.console() != null) {
+                System.out.print("  Password: (secured) ");
+                char[] chars = System.console().readPassword();
+                pswd = new String(chars);
+            } else {
+                System.out.print("  Password: ");
+                pswd = sc.nextLine();
+            }
 
             if (name.equals("")){
                 System.out.println("Bye.");
