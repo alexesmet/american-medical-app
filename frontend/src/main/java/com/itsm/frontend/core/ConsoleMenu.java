@@ -19,6 +19,7 @@ public class ConsoleMenu implements Runnable{
     private final CrudMenu stateCRUD;
     private final Factory<Transaction> transactionFactory;
     private final AddServiceInterface<Transaction> transactionAddService;
+    private final TransactionListMenuInterface transactionListMenu;
 
     private final Scanner sc;
 
@@ -30,10 +31,12 @@ public class ConsoleMenu implements Runnable{
                        Factory<Product> productFactory,
                        Factory<State> stateFactory,
                        Factory<Transaction> transactionFactory,
-                       AddServiceInterface<Transaction> transactionAddService) {
+                       AddServiceInterface<Transaction> transactionAddService,
+                       TransactionListMenuInterface transactionListMenu) {
 
         this.transactionFactory = transactionFactory;
         this.transactionAddService = transactionAddService;
+        this.transactionListMenu = transactionListMenu;
         clientCRUD = new CrudMenu(clientStorage,clientFactory);
         productCRUD = new CrudMenu(productStorage,productFactory);
         stateCRUD = new CrudMenu(stateStorage,stateFactory);
@@ -47,6 +50,7 @@ public class ConsoleMenu implements Runnable{
                     " 2. Product CRUD \n" +
                     " 3. State   CRUD \n" +
                     " 4. Sell operation \n" +
+                    " 5. Sell list for user \n" +
                     " 0. exit \n" +
                     "> ");
             switch (sc.nextInt()) {
@@ -66,6 +70,9 @@ public class ConsoleMenu implements Runnable{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    break;
+                case 5:
+                    transactionListMenu.run();
                     break;
                 case 0:
                     System.out.println("Bye.");

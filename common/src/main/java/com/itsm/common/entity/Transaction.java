@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity(name = "transaction")
 @Table(name = "transactions")
-public class Transaction implements EntityInterface  {
+public class Transaction extends MutableEntity  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,5 +33,15 @@ public class Transaction implements EntityInterface  {
         this.patient = patient;
         this.product = product;
         this.datetime = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", patient=" + patient +
+                ", product=" + product +
+                ", datetime=" + datetime +
+                '}';
     }
 }

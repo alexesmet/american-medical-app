@@ -1,8 +1,6 @@
 package com.itsm.frontend.core;
 
-import com.itsm.common.entity.Client;
-import com.itsm.common.entity.Product;
-import com.itsm.common.entity.State;
+import com.itsm.common.entity.*;
 import com.itsm.frontend.factory.ClientFactory;
 import com.itsm.frontend.factory.ProductFactory;
 import com.itsm.frontend.factory.StateFactory;
@@ -10,6 +8,8 @@ import com.itsm.frontend.factory.TransactionFactory;
 import com.itsm.frontend.session.PasswordEncryptor;
 import com.itsm.frontend.session.UserSessionHolder;
 import com.itsm.frontend.storage.Storage;
+import com.itsm.frontend.storage.interf.InterfaceTransactionStorage;
+import com.itsm.frontend.storage.interf.InterfaceUserStorage;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +55,10 @@ public class SpringConfig {
 
     @Bean
     public PasswordEncryptor passwordEncryptor() {return new PasswordEncryptor();}
+
+    @Bean TransactionListMenu  transactionListMenu(InterfaceTransactionStorage transactionStorage, InterfaceUserStorage userStorage) {
+        return new TransactionListMenu(transactionStorage,userStorage);
+    }
 
     @Bean
     public DataSource ds() {

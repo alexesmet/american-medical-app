@@ -210,6 +210,31 @@
                                  referencedTableName="users"/>
     </changeSet>
 
+    <changeSet id="9" author="alexey">
+        <addColumn tableName="transactions">
+            <column name="created_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="created_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="bigint">  <constraints nullable="true"/></column>
+            <column name="updated_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="created_by"
+                                 baseTableName="transactions"
+                                 constraintName="transactions_created_by_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="updated_by"
+                                 baseTableName="transactions"
+                                 constraintName="transactions_product_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
 
 
 </databaseChangeLog>
